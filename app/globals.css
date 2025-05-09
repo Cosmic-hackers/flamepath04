@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ... (previous CSS remains the same) */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+
+    /* Updated and new custom theme colors */
+    --flame-red: #ff4500;
+    --flame-orange: #ff7f50;
+    --flame-yellow: #ffd700;
+    --flame-gold: #ffa500;
+    --electric-blue: #00bfff;
+    --midnight-blue: #191970;
+    --cosmic-black: #0c0c0c;
+    --nova-white: #ffffff;
+    --nebula-gray: #808080;
+    --plasma-green: #39ff14;
+    /* Custom theme colors */
+
+    --foreground-light: #f8f9fa;
+    --background-dark: #1a1b1e;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 20 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 50% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 20 100% 50%;
+  }
+}
+
+@layer utilities {
+  .text-flame-red {
+    color: var(--flame-red);
+  }
+  .text-flame-orange {
+    color: var(--flame-orange);
+  }
+  .text-flame-yellow {
+    color: var(--flame-yellow);
+  }
+  .text-flame-gold {
+    color: var(--flame-gold);
+  }
+  .text-electric-blue {
+    color: var(--electric-blue);
+  }
+  .text-cosmic-black {
+    color: var(--cosmic-black);
+  }
+  .text-nova-white {
+    color: var(--nova-white);
+  }
+  .text-nebula-gray {
+    color: var(--nebula-gray);
+  }
+  .text-plasma-green {
+    color: var(--plasma-green);
+  }
+
+  .bg-flame-red {
+    background-color: var(--flame-red);
+  }
+  .bg-flame-orange {
+    background-color: var(--flame-orange);
+  }
+  .bg-flame-yellow {
+    background-color: var(--flame-yellow);
+  }
+  .bg-flame-gold {
+    background-color: var(--flame-gold);
+  }
+  .bg-electric-blue {
+    background-color: var(--electric-blue);
+  }
+  .bg-cosmic-black {
+    background-color: var(--cosmic-black);
+  }
+  .bg-nova-white {
+    background-color: var(--nova-white);
+  }
+  .bg-nebula-gray {
+    background-color: var(--nebula-gray);
+  }
+  .bg-plasma-green {
+    background-color: var(--plasma-green);
+  }
+}
+
+@layer components {
+  .flame-text {
+    background: linear-gradient(45deg, var(--flame-red), var(--flame-orange), var(--flame-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .flame-button {
+    background: linear-gradient(45deg, var(--flame-red), var(--flame-orange));
+    color: var(--nova-white);
+    transition: all 0.3s ease;
+  }
+
+  .flame-button:hover {
+    background: linear-gradient(45deg, var(--flame-orange), var(--flame-yellow));
+    box-shadow: 0 0 15px var(--flame-orange);
+  }
+
+  .tech-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .tech-card:hover {
+    box-shadow: 0 0 20px var(--flame-orange);
+    transform: translateY(-5px);
+  }
+}
+
+/* ... (rest of the CSS remains the same) */
