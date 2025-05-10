@@ -1,13 +1,13 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+"use client"
+import { motion } from "framer-motion"
 
 const AnimatedStudent = () => {
   const pathVariants = {
     hidden: { pathLength: 0 },
-    visible: { 
+    visible: {
       pathLength: 1,
-      transition: { duration: 2, ease: "easeInOut" }
-    }
+      transition: { duration: 2, ease: "easeInOut" },
+    },
   }
 
   const studentVariants = {
@@ -15,14 +15,14 @@ const AnimatedStudent = () => {
     visible: {
       x: [0, 100, 200, 300, 400],
       y: [0, -50, 0, -50, 0],
-      transition: { 
+      transition: {
         duration: 4,
         times: [0, 0.25, 0.5, 0.75, 1],
         ease: "easeInOut",
-        repeat: Infinity,
-        repeatType: "reverse"
-      }
-    }
+        repeat: Number.POSITIVE_INFINITY,
+        repeatType: "reverse",
+      },
+    },
   }
 
   return (
@@ -54,14 +54,10 @@ const AnimatedStudent = () => {
           animate="visible"
         >
           {/* Flame trail effect */}
-          <motion.animateMotion
-            path="M0,0 C30,-30 70,-30 100,0"
-            dur="0.5s"
-            repeatCount="indefinite"
-          />
+          <motion.animateMotion path="M0,0 C30,-30 70,-30 100,0" dur="0.5s" repeatCount="indefinite" />
         </motion.circle>
       </svg>
-      <motion.div 
+      <motion.div
         className="absolute top-0 right-0 bg-gradient-to-r from-flame-orange to-flame-red text-white p-2 rounded-lg font-bold"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}

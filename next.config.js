@@ -6,10 +6,6 @@ const nextConfig = {
     domains: ["hebbkx1anhila5yf.public.blob.vercel-storage.com"],
     unoptimized: true,
   },
-  experimental: {
-    optimizeCss: true,
-    scrollRestoration: true,
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { MessageCircle, Send, Mic, X } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef, useCallback } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { MessageCircle, Send, Mic, X } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([])
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState("")
   const [isListening, setIsListening] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -26,13 +26,13 @@ export default function AIChatbot() {
 
   const handleSendMessage = useCallback(() => {
     if (input.trim()) {
-      setMessages(prev => [...prev, { text: input, isUser: true }])
+      setMessages((prev) => [...prev, { text: input, isUser: true }])
       // Simulate AI response
       setTimeout(() => {
         const aiResponse = generateAIResponse(input)
-        setMessages(prev => [...prev, { text: aiResponse, isUser: false }])
+        setMessages((prev) => [...prev, { text: aiResponse, isUser: false }])
       }, 1000)
-      setInput('')
+      setInput("")
     }
   }, [input])
 
@@ -103,7 +103,7 @@ export default function AIChatbot() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
                       className={`p-2 rounded-lg ${
-                        message.isUser ? 'bg-primary text-primary-foreground ml-auto' : 'bg-secondary'
+                        message.isUser ? "bg-primary text-primary-foreground ml-auto" : "bg-secondary"
                       } max-w-[80%]`}
                     >
                       {message.text}
@@ -116,7 +116,7 @@ export default function AIChatbot() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask a question..."
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                   />
                   <Button onClick={handleSendMessage}>
                     <Send size={18} />

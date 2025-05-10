@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
-import React, { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import type React from "react"
+import { useEffect, useRef, useState } from "react"
+import { motion } from "framer-motion"
 
 interface FadeInSectionProps {
   children: React.ReactNode
@@ -21,9 +22,9 @@ export const FadeInSection: React.FC<FadeInSectionProps> = ({ children }) => {
       },
       {
         root: null,
-        rootMargin: '0px',
+        rootMargin: "0px",
         threshold: 0.1,
-      }
+      },
     )
 
     if (ref.current) {

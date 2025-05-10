@@ -30,11 +30,10 @@ export default function CoursesPage() {
   const { addItem } = useCart()
   const { toast } = useToast()
 
-  if (!courses) {
-    return <div>Loading courses...</div>
-  }
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    setIsLoading(true)
     try {
       const storedCourses = JSON.parse(localStorage.getItem("courses") || "[]")
       if (storedCourses.length === 0) {
@@ -343,6 +342,8 @@ export default function CoursesPage() {
     } catch (error) {
       console.error("Error loading courses:", error)
       setCourses([])
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
@@ -356,6 +357,10 @@ export default function CoursesPage() {
     if (accessibleCourses.includes(courseId)) return "accessible"
     if (purchasedCourses.includes(courseId)) return "waitingConfirmation"
     return "notPurchased"
+  }
+
+  if (isLoading) {
+    return <div>Loading courses...</div>
   }
 
   return (

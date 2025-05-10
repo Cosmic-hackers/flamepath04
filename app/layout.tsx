@@ -1,20 +1,18 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { UserProvider } from '@/contexts/UserContext'
-import { CartProvider } from '@/contexts/CartContext'
-import { ThemeProvider } from '@/components/ThemeProvider'
-import dynamic from 'next/dynamic'
+import type React from "react"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import { UserProvider } from "@/contexts/UserContext"
+import { CartProvider } from "@/contexts/CartContext"
+import { ThemeProvider } from "@/components/ThemeProvider"
+import { AIChatbotWrapper, VoiceAssistantWrapper } from "@/components/client-wrappers"
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
-
-const AIChatbot = dynamic(() => import('@/components/AIChatbot'), { ssr: false })
-const VoiceAssistant = dynamic(() => import('@/components/VoiceAssistant'), { ssr: false })
+const inter = Inter({ subsets: ["latin"], display: "swap" })
 
 export const metadata = {
-  title: 'Flamepath Academy',
-  description: 'Ignite Your Tech Career with Cutting-Edge Courses',
+  title: "Flamepath Academy",
+  description: "Ignite Your Tech Career with Cutting-Edge Courses",
     generator: 'v0.dev'
 }
 
@@ -32,10 +30,10 @@ export default function RootLayout({
               <Header />
               <main className="flex-grow bg-background-light">{children}</main>
               <Footer />
-              <AIChatbot />
+              <AIChatbotWrapper />
             </CartProvider>
           </UserProvider>
-          <VoiceAssistant />
+          <VoiceAssistantWrapper />
         </ThemeProvider>
       </body>
     </html>

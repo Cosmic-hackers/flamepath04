@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   increment,
   addDoc,
+  arrayRemove,
 } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import type { CourseId } from "@/utils/badges"
@@ -181,16 +182,20 @@ export const purchaseCourse = async (userId: string, courseId: string) => {
     // Add to purchased courses
     await updateDoc(userRef, {
       purchasedCourses: arrayUnion(courseId),
-      // Remove from cart if it's there
-      cartedCourses: arrayUnion(courseId).filter((id: string) => id !== courseId),
+    })
+
+    // Remove from cart if it's there
+    await updateDoc(userRef, {
+      cartedCourses: arrayRemove(courseId),
     })
 
     // Record purchase in transactions collection
+    const courseData = await getCourseById(courseId)
     await addDoc(collection(db, "transactions"), {
       userId,
       courseId,
       type: "purchase",
-      amount: (await getCourseById(courseId))?.price || 0,
+      amount: courseData?.price || 0,
       timestamp: serverTimestamp(),
     })
   } catch (error) {

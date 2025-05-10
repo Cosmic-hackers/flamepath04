@@ -1,74 +1,29 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  sendPasswordResetEmail,
-  updateProfile,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
+  sendPasswordResetEmail,
+  updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth"
-import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore"
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore"
 import { auth, db } from "@/lib/firebase"
 
-export type UserCredential = {
-  email: string
-  password: string
-}
-
-export type UserProfile = {
-  fullName: string
-  email: string
-  phone: string
-  role: string
-  profession: string
-  educationalDetails?: string
-  course?: string
-  interestedCourses?: string[]
-  portfolioUrl?: string
-  company?: string
-  position?: string
-  expertCourses?: string[]
-  teachingCourses?: string[]
-  organization?: string
-  blazecredits?: {
-    earned: number
-    redeemed: number
-    remaining: number
-  }
-  referrals?: { type: string; name: string }[]
-  referralCode?: string
-  specialUser?: boolean
-}
-
-// Register a new user
-export const registerUser = async (credentials: UserCredential, profile: UserProfile) => {
+// User authentication
+export const registerUser = async (credentials: any, userProfile: any) => {
   try {
-    // Create user with email and password
     const userCredential = await createUserWithEmailAndPassword(auth, credentials.email, credentials.password)
-
     const user = userCredential.user
 
-    // Update display name
-    await updateProfile(user, {
-      displayName: profile.fullName,
-    })
+    // Update profile with display name
+    await updateProfile(user, { displayName: userProfile.fullName })
 
     // Create user document in Firestore
     await setDoc(doc(db, "users", user.uid), {
-      ...profile,
+      ...userProfile,
       createdAt: serverTimestamp(),
-      blazecredits: profile.blazecredits || {
-        earned: 0,
-        redeemed: 0,
-        remaining: 0,
-      },
-      badges: [],
-      achievements: [],
-      purchasedCourses: [],
-      accessibleCourses: [],
-      accessibleResources: [],
-      cartedCourses: [],
     })
 
     return user
@@ -78,32 +33,30 @@ export const registerUser = async (credentials: UserCredential, profile: UserPro
   }
 }
 
-// Sign in existing user
-export const signIn = async (credentials: UserCredential) => {
+export const signIn = async (credentials: any) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, credentials.email, credentials.password)
     return userCredential.user
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error logging in:", error)
     throw error
   }
 }
 
-// Sign in with Google
 export const signInWithGoogle = async () => {
   try {
     const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
+    const userCredential = await signInWithPopup(auth, provider)
+    const user = userCredential.user
 
     // Check if user document exists
     const userDoc = await getDoc(doc(db, "users", user.uid))
 
+    // If not, create a new user document
     if (!userDoc.exists()) {
-      // Create new user document if it doesn't exist
       await setDoc(doc(db, "users", user.uid), {
-        fullName: user.displayName,
-        email: user.email,
+        fullName: user.displayName || "",
+        email: user.email || "",
         phone: user.phoneNumber || "",
         role: "user",
         profession: "",
@@ -113,33 +66,25 @@ export const signInWithGoogle = async () => {
           redeemed: 0,
           remaining: 0,
         },
-        badges: [],
-        achievements: [],
-        purchasedCourses: [],
-        accessibleCourses: [],
-        accessibleResources: [],
-        cartedCourses: [],
       })
     }
 
     return user
   } catch (error) {
-    console.error("Error signing in with Google:", error)
+    console.error("Error logging in with Google:", error)
     throw error
   }
 }
 
-// Sign out
-export const signOut = async () => {
+export const logoutUser = async () => {
   try {
-    await firebaseSignOut(auth)
+    await signOut(auth)
   } catch (error) {
-    console.error("Error signing out:", error)
+    console.error("Error logging out:", error)
     throw error
   }
 }
 
-// Reset password
 export const resetPassword = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email)
@@ -149,29 +94,15 @@ export const resetPassword = async (email: string) => {
   }
 }
 
-// Get current user profile
 export const getCurrentUserProfile = async (user: FirebaseUser) => {
   try {
     const userDoc = await getDoc(doc(db, "users", user.uid))
     if (userDoc.exists()) {
-      return userDoc.data() as UserProfile
+      return userDoc.data()
     }
     return null
   } catch (error) {
     console.error("Error getting user profile:", error)
-    throw error
-  }
-}
-
-// Update user profile
-export const updateUserProfile = async (userId: string, profile: Partial<UserProfile>) => {
-  try {
-    await updateDoc(doc(db, "users", userId), {
-      ...profile,
-      updatedAt: serverTimestamp(),
-    })
-  } catch (error) {
-    console.error("Error updating user profile:", error)
     throw error
   }
 }

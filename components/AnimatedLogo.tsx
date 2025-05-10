@@ -1,6 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Flame } from 'lucide-react'
+"use client"
+import { motion } from "framer-motion"
+import { Flame } from "lucide-react"
 
 const AnimatedLogo = () => {
   const flameVariants = {
@@ -10,10 +10,10 @@ const AnimatedLogo = () => {
       opacity: [0.5, 1, 0.5],
       transition: {
         duration: 1.5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
+        repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
+      },
+    },
   }
 
   const textVariants = {
@@ -23,18 +23,14 @@ const AnimatedLogo = () => {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   }
 
   return (
     <div className="flex items-center">
-      <motion.div
-        initial="initial"
-        animate="animate"
-        variants={flameVariants}
-      >
+      <motion.div initial="initial" animate="animate" variants={flameVariants}>
         <Flame className="h-8 w-8 text-golden" />
       </motion.div>
       <div className="ml-2 font-bold text-2xl">
